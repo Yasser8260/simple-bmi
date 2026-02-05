@@ -2,81 +2,126 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>BMI & Ideal Weight Calculator</title>
-  <meta name="description" content="Calculate your BMI and ideal weight instantly. Simple and free health calculator.">
+  <title>BMI Calculator – Check Your Body Mass Index Instantly</title>
+  <meta name="description" content="Free BMI calculator. Enter your height and weight to instantly calculate your Body Mass Index and understand your health status.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    body { font-family: Arial, sans-serif; background: #f4f6f8; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-    .container { background: white; padding: 25px; border-radius: 8px; width: 100%; max-width: 400px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center; }
-    h1 { margin-bottom: 8px; }
-    .tagline { font-size: 14px; color: #555; margin-bottom: 20px; }
-    input, select { width: 100%; padding: 10px; margin: 8px 0; font-size: 16px; }
-    button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; font-size: 16px; cursor: pointer; margin-top: 10px; }
-    button:hover { background: #0056b3; }
-    .result { margin-top: 15px; font-size: 18px; font-weight: bold; }
-    .explanation { margin-top: 8px; font-size: 14px; color: #444; }
-    .cta { margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee; }
-    .cta p { font-size: 14px; margin-bottom: 10px; }
-    .cta a { display: block; padding: 10px; background: #28a745; color: white; text-decoration: none; border-radius: 4px; font-size: 15px; }
-    .cta a:hover { background: #218838; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7f8;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c7be5;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 14px;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 12px;
+      background: #2c7be5;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1a5fc4;
+    }
+
+    .result {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .cta {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      text-decoration: none;
+      color: #2c7be5;
+      font-weight: bold;
+    }
   </style>
 </head>
-
 <body>
+
   <div class="container">
-    <h1>Health Calculator</h1>
-    <div class="tagline">Calculate your BMI and discover your ideal body weight in seconds.</div>
+    <h1>BMI Calculator</h1>
+    <p>This free BMI calculator helps you quickly determine whether your weight is healthy for your height.</p>
 
-    <input type="number" id="weight" placeholder="Weight (kg)">
-    <input type="number" id="height" placeholder="Height (cm)">
-    <select id="gender">
-      <option value="">Select gender</option>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-    </select>
+    <label for="weight">Weight (kg)</label>
+    <input type="number" id="weight" placeholder="Enter your weight">
 
-    <button onclick="calculate()">Calculate</button>
+    <label for="height">Height (cm)</label>
+    <input type="number" id="height" placeholder="Enter your height">
+
+    <button onclick="calculateBMI()">Calculate BMI</button>
 
     <div class="result" id="result"></div>
-    <div class="explanation" id="explanation"></div>
 
-    <div class="cta" id="cta" style="display:none;">
-      <p>Want to know how to reach your ideal weight?</p>
-      <a href="next.html">Get your personalized plan →</a>
-    </div>
+    <a class="cta" href="next.html">Learn what your BMI means →</a>
   </div>
 
   <script>
-    function calculate() {
+    function calculateBMI() {
       const weight = document.getElementById("weight").value;
       const height = document.getElementById("height").value;
-      const gender = document.getElementById("gender").value;
 
-      if (weight === "" || height === "" || gender === "") {
-        document.getElementById("result").innerText = "Please enter all values.";
-        document.getElementById("explanation").innerText = "";
-        document.getElementById("cta").style.display = "none";
+      if (!weight || !height) {
+        document.getElementById("result").innerText = "Please enter valid values.";
         return;
       }
 
-      const heightMeters = height / 100;
-      const bmi = weight / (heightMeters * heightMeters);
-
-      let bmiStatus = "";
-      if (bmi < 18.5) bmiStatus = "Underweight";
-      else if (bmi < 25) bmiStatus = "Normal weight";
-      else if (bmi < 30) bmiStatus = "Overweight";
-      else bmiStatus = "Obese";
-
-      const heightInInches = height / 2.54;
-      let idealWeight = gender === "male" ? 50 + 2.3 * (heightInInches - 60) : 45.5 + 2.3 * (heightInInches - 60);
-
-      document.getElementById("result").innerText = "Your BMI is " + bmi.toFixed(1) + " (" + bmiStatus + ")";
-      document.getElementById("explanation").innerText = "Your ideal weight is approximately " + idealWeight.toFixed(1) + " kg.";
-      document.getElementById("cta").style.display = "block";
+      const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+      document.getElementById("result").innerText = "Your BMI is " + bmi;
     }
   </script>
+
 </body>
 </html>
 
