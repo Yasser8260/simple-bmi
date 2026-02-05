@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>BMI Calculator – Check Your Body Mass Index Instantly</title>
-  <meta name="description" content="Free BMI calculator. Enter your height and weight to instantly calculate your Body Mass Index and understand your health status.">
+  <meta name="description" content="Free BMI calculator. Enter your height, weight, and gender to instantly calculate your Body Mass Index and understand your health status.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -46,7 +46,7 @@
       font-weight: bold;
     }
 
-    input {
+    input, select {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -94,13 +94,19 @@
     <h1>BMI Calculator</h1>
     <p>This free BMI calculator helps you quickly determine whether your weight is healthy for your height.</p>
 
+    <label for="gender">Gender</label>
+    <select id="gender">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+
     <label for="weight">Weight (kg)</label>
     <input type="number" id="weight" placeholder="Enter your weight">
 
     <label for="height">Height (cm)</label>
     <input type="number" id="height" placeholder="Enter your height">
 
-    <button onclick="calculateBMI()">Calculate BMI</button>
+    <button id="calcBtn">Calculate BMI</button>
 
     <div class="result" id="result"></div>
 
@@ -108,20 +114,32 @@
   </div>
 
   <script>
-    function calculateBMI() {
-      const weight = document.getElementById("weight").value;
-      const height = document.getElementById("height").value;
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById("calcBtn").addEventListener("click", function() {
+        const weight = parseFloat(document.getElementById("weight").value);
+        const height = parseFloat(document.getElementById("height").value);
+        const gender = document.getElementById("gender").value;
 
-      if (!weight || !height) {
-        document.getElementById("result").innerText = "Please enter valid values.";
-        return;
-      }
+        if (!weight || !height) {
+          document.getElementById("result").innerText = "Please enter valid values.";
+          return;
+        }
 
-      const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
-      document.getElementById("result").innerText = "Your BMI is " + bmi;
-    }
+        const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+
+        let message = "Your BMI is " + bmi + ". ";
+        if(gender === "male") {
+          message += "As a male, maintain a healthy lifestyle.";
+        } else {
+          message += "As a female, maintain a healthy lifestyle.";
+        }
+
+        document.getElementById("result").innerText = message;
+      });
+    });
   </script>
 
 </body>
 </html>
+
 
